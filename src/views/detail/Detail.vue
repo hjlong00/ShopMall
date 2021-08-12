@@ -1,17 +1,20 @@
 <template>
-  <div>购物车</div>
+  <div>
+
+ </div>
 </template>
 
 <script>
 export default {
-  name: 'Cart',
-  data () {
+  name: 'Detail',
+  data() {
     return {
 
     }
   },
-}
+ }
 </script>
 
 <style scoped>
+
 </style>

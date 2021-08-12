@@ -15,15 +15,16 @@ export default {
 <style scoped>
 .nav-bar {
   display: flex;
-  /* height: 44px; */
+  height: 44px;
   line-height: 44px;
   text-align: center;
   box-shadow: 0 1px 1px rgba(134, 132, 132, 0.192);
 }
-.left,.right {
+.left,
+.right {
   width: 60px;
 }
 .center {
-  flex:1;
-  }
+  flex: 1;
+}
 </style>
