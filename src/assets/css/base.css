@@ -19,7 +19,8 @@
 }
 
 body {
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   user-select: none; /* 禁止用户鼠标在页面上选中文字/图片等 */
   -webkit-tap-highlight-color: transparent; /* webkit是苹果浏览器引擎，tap点击，highlight背景高亮，color颜色，颜色用数值调节 */
   background: var(--color-background);
@@ -33,10 +34,9 @@ a {
   text-decoration: none;
 }
 
-
 .clear-fix::after {
   clear: both;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;
@@ -54,4 +54,13 @@ a {
 .right {
   float: right;
 }
-
+.arr-right {
+  border-top: 1px solid #999;
+  border-right: 1px solid #999;
+  width: 9px;
+  height: 9px;
+  background-color: transparent;
+  transform: rotate(45deg);
+  display: inline-block;
+  margin-left: 0.1rem;
+}

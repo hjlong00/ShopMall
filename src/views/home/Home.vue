@@ -12,7 +12,7 @@
       class="content"
       ref="scroll"
       :probe-type="3"
-      @scroll="backToTop"
+      @scroll="contentScroll"
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
@@ -26,7 +26,7 @@
       />
       <goods-list :goods="showGoods" />
     </scroll>
-    <back-top @click.native="backClick" v-show="isShow" />
+    <back-top @click.native="backTop" v-show="isShowBackTop" />
   </div>
 </template>
 
@@ -39,10 +39,9 @@ import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
-import BackTop from 'components/content/backTop/BackTop'
 
 import { getHomeMultidata, getHomeGoods } from 'network/home'
-import { debounce } from '@/common/utils'
+import { itemListerMixin, backTopMixin } from '@/common/mixin'
 
 export default {
   name: 'Home',
@@ -56,10 +55,9 @@ export default {
         'sell': { page: 0, list: [] }
       },
       currentType: 'pop',
-      isShow: false,
       tabOffsetTop: 0,
       isTabFixed: false,
-      saveY: 0
+      saveY: 0,
     }
   },
   components: {
@@ -70,7 +68,6 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
   },
   created () {
     // 1，请求多个数据
@@ -81,20 +78,22 @@ export default {
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
   },
+  mixins: [itemListerMixin, backTopMixin],
   mounted () {
-    const refresh = debounce(this.$refs.scroll.refresh, 50)
-    this.$bus.$on('itemImageLoad', () => {
-      refresh()
-    })
   },
   // 活跃时
   activated () {
     this.$refs.scroll.scrollTo(0, this.saveY, 0)
     this.$refs.scroll.refresh()
+    this.$bus.$on('itemImageLoad', this.itemImgLister)
   },
   // 不活跃时
   deactivated () {
+    // 保存页面y值
     this.saveY = this.$refs.scroll.getScrollY()
+
+    // 2，取消全局事件的监听
+    this.$bus.$off('itemImageLoad', this.itemImgLister)
   },
   computed: {
     showGoods () {
@@ -148,12 +147,11 @@ export default {
       this.$refs.tabcontrol1.currentIndex = index
       this.$refs.tabcontrol2.currentIndex = index
     },
-    backClick () {
-      this.$refs.scroll.scrollTo(0, 0)
-    },
-    backToTop (position) {
+
+    contentScroll (position) {
       // console.log(position);
-      this.isShow = Math.abs(position.y) > 1000
+      // backTopMixin带来的方法，判断是否显示返回图标
+      this.listenShowBackTop(position)
 
       this.isTabFixed = Math.abs(position.y) > this.tabOffsetTop
     },

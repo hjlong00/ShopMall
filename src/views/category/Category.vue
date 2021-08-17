@@ -1,13 +1,18 @@
 <template>
   <div>
-分类
-  </div>
+
+ </div>
 </template>
 
 <script>
-  export default {
+export default {
+  name: 'Category',
+  data() {
+    return {
 
-  }
+    }
+  },
+ }
 </script>
 
 <style scoped>

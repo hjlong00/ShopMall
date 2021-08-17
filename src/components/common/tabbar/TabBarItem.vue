@@ -24,14 +24,14 @@ export default {
     isActive () {
       return this.$route.path.indexOf(this.path) !== -1
     },
-    activeStyle(){
-      return this.isActive ? {color:this.activeColor} : {}
+    activeStyle () {
+      return this.isActive ? { color: this.activeColor } : {}
     }
   },
   methods: {
     itemClick () {
       if (this.$route.path !== this.path) {
-        this.$router.push(this.path)
+        this.$router.replace(this.path)
       }
       // console.log(this.$route)
     }
