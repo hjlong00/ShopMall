@@ -39,6 +39,7 @@ import GoodsList from '../../components/content/goods/GoodsList'
 import { getDetail, getRecommend, Goods, Shop, GoodsParam } from 'network/detail'
 import { itemListerMixin, backTopMixin } from '@/common/mixin'
 import { debounce } from '@/common/utils'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Detail',
@@ -186,6 +187,7 @@ export default {
       this.listenShowBackTop(position)
     },
 
+    ...mapActions(['addCart']),
     addToCart () {
       // 1，获取购物车需要展示的信息
       const product = {}
@@ -196,7 +198,13 @@ export default {
       product.iid = this.iid
 
       // 2,添加到购物车. 通过dispatch提交 actions 处理
-    this.$store.dispatch('addCart',product)
+      // this.$store.dispatch('addCart', product).then(res => {
+      //   console.log(res);
+      // })
+      this.addCart(product).then(res => {
+        // console.log(res);
+        this.$toast.show(res, 2000)
+      })
     }
   },
   destroyed () {

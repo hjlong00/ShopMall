@@ -1,14 +1,18 @@
 <template>
   <div class="bottom-bar">
     <div class="check-content">
-      <check-button class="check-button" @click.native="checkAll"/>
+      <check-button
+        class="check-button"
+        :is-checked="isCheckAll"
+        @click.native="checkAll"
+      />
       <span>全选</span>
     </div>
-    <div class="checkoutLength" v-show="isCheckout">
+    <div class="checkoutLength" v-show="checkoutLength > 0">
       已选 {{ checkoutLength }} 件
     </div>
     <div class="total-price">合计：{{ totalPrice }}</div>
-    <div class="checkout">结算</div>
+    <div class="checkout" @click="checkOut">结算</div>
   </div>
 </template>
 
@@ -21,7 +25,6 @@ export default {
   components: { CheckButton },
   data () {
     return {
-      isCheckout: false,
     }
   },
   computed: {
@@ -40,12 +43,35 @@ export default {
         return preValue + item.count
       }, 0)
     },
+    isCheckAll () {
+      if (this.cartList.length === 0) return false
+      // return !(this.cartList.filter(item => !item.checked).length) // 数字取反就是false， 0取反是true
+      return !(this.cartList.find(item => !item.checked))
+    }
   },
+  // watch: {
+  //   checkoutLength (val, oldVal) {
+  //     console.log(val, oldVal);
+  //   }
+  // },
   mounted () {
-    this.isCheckout = this.checkoutLength > 0
   },
   methods: {
-
+    checkAll () {
+      if (this.isCheckAll) {
+        return this.cartList.forEach(item => {
+          return item.checked = false
+        });
+      } else {
+        this.cartList.forEach(item => item.checked = true)
+      }
+    },
+    // 未选择商品时点结算的弹窗
+    checkOut () {
+      if (!this.checkoutLength) {
+        this.$toast.show('还未选择商品', 2000)
+      }
+    }
   }
 }
 </script>
@@ -54,8 +80,8 @@ export default {
 .bottom-bar {
   position: relative;
   display: flex;
-  height: 40px;
-  line-height: 40px;
+  height: 45px;
+  line-height: 45px;
   border-top: 1px solid #ccc;
   /* background-color: #eee; */
 }
@@ -65,9 +91,11 @@ export default {
 }
 .check-button {
   /* line-height: 20px; */
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   margin: 0 10px;
+  align-items: center;
+  justify-content: center;
 }
 .check-content span {
   font-weight: 520;

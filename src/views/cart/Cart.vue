@@ -53,5 +53,6 @@ export default {
   background-color: var(--color-tint);
   color: #fff;
   font-weight: 600;
+  font-size: 16px;
 }
 </style>

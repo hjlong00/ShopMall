@@ -15,8 +15,8 @@ export const itemListerMixin = {
 
     // 对监听的事件进行保存
     this.itemImgLister = () => { this.newRefresh() }
-    this.$bus.$on('itemImageLoad', this.itemImgLister)
 
+    this.$bus.$on('itemImageLoad', this.itemImgLister)
   },
 }
 
@@ -40,6 +40,30 @@ export const backTopMixin = {
     // 监听是否显示返回按钮
     listenShowBackTop (position) {
       this.isShowBackTop = Math.abs(position.y) > 1000
+    }
+  },
+}
+
+export const tabControlMixin = {
+  data () {
+    return {
+      currentType: 'pop'
+    }
+  },
+  methods: {
+    tabClick (index) {
+      switch (index) {
+        case 0:
+          this.currentType = 'pop'
+          break
+        case 1:
+          this.currentType = 'new'
+          break
+        case 2:
+          this.currentType = 'sell'
+          break
+      }
+      console.log(this.currentType);
     }
   },
 }

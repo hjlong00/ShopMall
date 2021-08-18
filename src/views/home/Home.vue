@@ -1,6 +1,8 @@
 <template>
   <div id="home">
-    <nav-bar class="home-nav"><div slot="center">购物街</div> </nav-bar>
+    <nav-bar class="home-nav"
+      ><div slot="center" class="text">购物街</div>
+    </nav-bar>
     <tab-control
       ref="tabcontrol1"
       :titles="['流行', '新款', '精选']"
@@ -111,7 +113,7 @@ export default {
       //所以这里的箭头函数里的this就能找到当前的作用域
       getHomeMultidata()
         .then((res) => {
-          // console.log(res)  //函数执行完的结果是会被内存回收，得用变量把数据存起来
+          console.log(res)  //函数执行完的结果是会被内存回收，得用变量把数据存起来
           this.banners = res.data.banner.list   // 保存数据
           this.recommends = res.data.recommend.list   // 保存数据
         }).catch((err) => {
@@ -177,12 +179,16 @@ export default {
   background-color: var(--color-tint);
   color: white;
   font-weight: 700;
+  font-size: 16px;
   /*
   position: fixed;
   left: 0;
   top: 0;
   right: 0;
   z-index: 9; */
+}
+#home > .home-nav > div.text {
+  font-size: 16px;
 }
 .tab-control {
   position: relative;
