@@ -3,7 +3,7 @@
     <nav-bar class="nav-bar"> <div slot="center">商品分类</div> </nav-bar>
     <div class="content">
       <tab-menu :categories="categories" @selectItem="selectItem" />
-      <scroll id="tab-content">
+      <scroll id="tab-content" ref="scroll">
         <div>
           <tab-content-category :subcategories="showSubcategory" />
           <tab-control
@@ -29,7 +29,7 @@ import Scroll from 'components/common/scroll/Scroll'
 
 
 import { getCategory, getSubcategory, getCategoryDetail } from 'network/category'
-import { tabControlMixin } from '@/common/mixin'
+import { itemListerMixin, tabControlMixin } from '@/common/mixin'
 
 export default {
   name: 'Category',
@@ -40,7 +40,11 @@ export default {
       currentIndex: -1,
     }
   },
-  mixins: [tabControlMixin],
+  mixins: [itemListerMixin, tabControlMixin],
+  activated () {
+    // this.$refs.scroll.refresh()
+    this.$bus.$on('itemImageLoad', this.itemImgLister)
+  },
   components: { NavBar, TabMenu, Scroll, TabContentCategory, TabControl, TabContentDetail },
   created () {
     // 1.请求分类数据
@@ -80,7 +84,7 @@ export default {
       const maitKey = this.categories[index].maitKey
       getSubcategory(maitKey).then(res => {
         this.categoryData[index].subcategories = res.data
-        // Vue的响应式规则， 
+        // Vue的响应式规则，
         this.categoryData = { ...this.categoryData }
         this._getCategoryDetail('pop')
         this._getCategoryDetail('sell')
@@ -103,6 +107,7 @@ export default {
      */
     selectItem (index) {
       this._getSubcategories(index)
+      this.$refs.scroll.scrollTo(0, 0, 10)
     }
   }
 }
