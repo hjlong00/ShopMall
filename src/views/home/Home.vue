@@ -113,7 +113,7 @@ export default {
       //所以这里的箭头函数里的this就能找到当前的作用域
       getHomeMultidata()
         .then((res) => {
-          console.log(res)  //函数执行完的结果是会被内存回收，得用变量把数据存起来
+          // console.log(res)  //函数执行完的结果是会被内存回收，得用变量把数据存起来
           this.banners = res.data.banner.list   // 保存数据
           this.recommends = res.data.recommend.list   // 保存数据
         }).catch((err) => {

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './assets/iconfont/iconfont.js'
+import './assets/iconfont/iconfont.css'
 
 // 懒加载插件
 import VueLazyload from 'vue-lazyload'
