@@ -13,8 +13,8 @@
       <detail-goods-info :detail-info="detailInfo" @imgLoad="imgLoad" />
       <detail-param-info ref="params" :param-info="paramInfo" />
       <detail-comment-info ref="comment" :comment-info="commentInfo" />
-      <div class="hot">热门推荐</div>
-      <goods-list ref="recommend" class="recommend" :goods="recommend" />
+      <div class="hot" ref="recommend">热门推荐</div>
+      <goods-list class="recommend" :goods="recommend" />
     </scroll>
     <detail-bottom-bar @addCart="addToCart" />
     <back-top @click.native="backTop" v-show="isShowBackTop" />
@@ -113,7 +113,7 @@ export default {
       this.themeTopYs.push(0)
       this.themeTopYs.push(this.$refs.params.$el.offsetTop)
       this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
-      this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
+      this.themeTopYs.push(this.$refs.recommend.offsetTop)
       // 这里给getThemeTopY再push一个js里能表示的最大值，用于 方法二 的判断
       this.themeTopYs.push(Number.MAX_VALUE)
       // console.log(this.themeTopYs);
