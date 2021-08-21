@@ -83,9 +83,9 @@ export default {
       this.currentIndex = index;
       const maitKey = this.categories[index].maitKey
       getSubcategory(maitKey).then(res => {
-        this.categoryData[index].subcategories = res.data
-        // Vue的响应式规则，
-        this.categoryData = { ...this.categoryData }
+        this.$set(this.categoryData[index], 'subcategories', res.data)
+        // Vue的响应式规则，无法跟踪data里没有定义的property
+        // this.categoryData = { ...this.categoryData }
         this._getCategoryDetail('pop')
         this._getCategoryDetail('sell')
         this._getCategoryDetail('new')
